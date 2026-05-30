@@ -4,24 +4,24 @@
 
 @section('content')
 <div class="auth-card-wrapper" style="max-width: 460px; margin: auto;">
-  <!-- Centered brand logo -->
-  <div class="text-center mb-4">
-    <a class="logo text-decoration-none text-white fs-2 d-inline-flex align-items-center justify-content-center" href="/" style="background: none; -webkit-background-clip: unset; -webkit-text-fill-color: #FFFFFF; color: #FFFFFF; font-weight: 800; text-shadow: 0 2px 4px rgba(15, 23, 42, 0.15);">
-      @if(file_exists(public_path('assets/img/logo.svg')))
-        <img src="{{ asset('assets/img/logo.svg') }}" alt="SecVote Logo" style="height: 85px; object-fit: contain;">
-      @elseif(file_exists(public_path('assets/img/logo.png')))
-        <img src="{{ asset('assets/img/logo.png') }}" alt="SecVote Logo" style="height: 85px; object-fit: contain;">
-      @elseif(file_exists(public_path('assets/img/logo.jpg')))
-        <img src="{{ asset('assets/img/logo.jpg') }}" alt="SecVote Logo" style="height: 85px; object-fit: contain;">
-      @elseif(file_exists(public_path('assets/img/logo.jpeg')))
-        <img src="{{ asset('assets/img/logo.jpeg') }}" alt="SecVote Logo" style="height: 85px; object-fit: contain;">
-      @else
-        🗳️ Sec<span>Vote</span>
-      @endif
-    </a>
-  </div>
-
   <div class="card auth-card">
+    <div class="text-center mb-4">
+      <div class="mb-3">
+        <a class="logo text-decoration-none d-inline-flex align-items-center justify-content-center" href="/" style="background: none; -webkit-background-clip: unset; font-weight: 800;">
+          @if(file_exists(public_path('assets/img/logo.svg')))
+            <img src="{{ asset('assets/img/logo.svg') }}" alt="SecVote Logo" style="height: 70px; object-fit: contain;">
+          @elseif(file_exists(public_path('assets/img/logo.png')))
+            <img src="{{ asset('assets/img/logo.png') }}" alt="SecVote Logo" style="height: 70px; object-fit: contain;">
+          @elseif(file_exists(public_path('assets/img/logo.jpg')))
+            <img src="{{ asset('assets/img/logo.jpg') }}" alt="SecVote Logo" style="height: 70px; object-fit: contain;">
+          @elseif(file_exists(public_path('assets/img/logo.jpeg')))
+            <img src="{{ asset('assets/img/logo.jpeg') }}" alt="SecVote Logo" style="height: 70px; object-fit: contain;">
+          @else
+            🗳️ Sec<span style="color: var(--text-main);">Vote</span>
+          @endif
+        </a>
+      </div>
+    </div>
     <div class="candidate-avatar mx-auto mb-4" style="background: rgba(93, 108, 240, 0.08); color: #5D6CF0; width: 64px; height: 64px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 1.75rem;">🔑</div>
     <h3 class="fw-bold text-dark mb-1 text-center" style="letter-spacing: -0.5px; font-size: 1.75rem;">Verifikasi OTP</h3>
     <p class="text-muted small text-center mb-4" style="font-weight: 400; line-height: 1.45;">
