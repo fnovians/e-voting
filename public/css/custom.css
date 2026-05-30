@@ -623,12 +623,12 @@ body.auth-page {
   background-color: #F0F4FF !important;
   background-image: none !important;
   position: relative;
-  overflow-x: hidden;
+  overflow-x: hidden !important;
 }
 
 body.auth-page::before {
   content: "";
-  position: absolute;
+  position: fixed;
   top: -50%;
   left: -50%;
   right: -50%;
