@@ -6,8 +6,18 @@
 <div class="auth-card-wrapper" style="max-width: 460px; margin: auto;">
   <!-- Centered brand logo -->
   <div class="text-center mb-4">
-    <a class="logo text-decoration-none text-white fs-2" href="/" style="background: none; -webkit-background-clip: unset; -webkit-text-fill-color: #FFFFFF; color: #FFFFFF; font-weight: 800; text-shadow: 0 2px 4px rgba(15, 23, 42, 0.15);">
-      🗳️ Sec<span>Vote</span>
+    <a class="logo text-decoration-none text-white fs-2 d-inline-flex align-items-center justify-content-center" href="/" style="background: none; -webkit-background-clip: unset; -webkit-text-fill-color: #FFFFFF; color: #FFFFFF; font-weight: 800; text-shadow: 0 2px 4px rgba(15, 23, 42, 0.15);">
+      @if(file_exists(public_path('assets/img/logo.svg')))
+        <img src="{{ asset('assets/img/logo.svg') }}" alt="SecVote Logo" style="height: 48px; object-fit: contain;">
+      @elseif(file_exists(public_path('assets/img/logo.png')))
+        <img src="{{ asset('assets/img/logo.png') }}" alt="SecVote Logo" style="height: 48px; object-fit: contain;">
+      @elseif(file_exists(public_path('assets/img/logo.jpg')))
+        <img src="{{ asset('assets/img/logo.jpg') }}" alt="SecVote Logo" style="height: 48px; object-fit: contain;">
+      @elseif(file_exists(public_path('assets/img/logo.jpeg')))
+        <img src="{{ asset('assets/img/logo.jpeg') }}" alt="SecVote Logo" style="height: 48px; object-fit: contain;">
+      @else
+        🗳️ Sec<span>Vote</span>
+      @endif
     </a>
   </div>
 

@@ -29,8 +29,18 @@
       <!-- Sidebar Wrapper -->
       <aside class="sidebar-wrapper" id="sidebarWrapper">
         <div class="sidebar-header">
-          <a class="logo text-decoration-none" href="/">
-            🗳️ Sec<span>Vote</span>
+          <a class="logo text-decoration-none d-inline-flex align-items-center" href="/">
+            @if(file_exists(public_path('assets/img/logo.svg')))
+              <img src="{{ asset('assets/img/logo.svg') }}" alt="SecVote Logo" style="height: 32px; object-fit: contain;">
+            @elseif(file_exists(public_path('assets/img/logo.png')))
+              <img src="{{ asset('assets/img/logo.png') }}" alt="SecVote Logo" style="height: 32px; object-fit: contain;">
+            @elseif(file_exists(public_path('assets/img/logo.jpg')))
+              <img src="{{ asset('assets/img/logo.jpg') }}" alt="SecVote Logo" style="height: 32px; object-fit: contain;">
+            @elseif(file_exists(public_path('assets/img/logo.jpeg')))
+              <img src="{{ asset('assets/img/logo.jpeg') }}" alt="SecVote Logo" style="height: 32px; object-fit: contain;">
+            @else
+              🗳️ Sec<span>Vote</span>
+            @endif
           </a>
           <!-- Close button on Mobile -->
           <button class="btn btn-link text-muted d-lg-none p-0" id="closeSidebarBtn" style="box-shadow: none;">
@@ -92,8 +102,18 @@
             </svg>
           </button>
           
-          <span class="logo fs-5">
-            🗳️ Sec<span>Vote</span>
+          <span class="logo fs-5 d-inline-flex align-items-center">
+            @if(file_exists(public_path('assets/img/logo.svg')))
+              <img src="{{ asset('assets/img/logo.svg') }}" alt="SecVote Logo" style="height: 24px; object-fit: contain;">
+            @elseif(file_exists(public_path('assets/img/logo.png')))
+              <img src="{{ asset('assets/img/logo.png') }}" alt="SecVote Logo" style="height: 24px; object-fit: contain;">
+            @elseif(file_exists(public_path('assets/img/logo.jpg')))
+              <img src="{{ asset('assets/img/logo.jpg') }}" alt="SecVote Logo" style="height: 24px; object-fit: contain;">
+            @elseif(file_exists(public_path('assets/img/logo.jpeg')))
+              <img src="{{ asset('assets/img/logo.jpeg') }}" alt="SecVote Logo" style="height: 24px; object-fit: contain;">
+            @else
+              🗳️ Sec<span>Vote</span>
+            @endif
           </span>
           
           <!-- Small Mobile User Profile Avatar -->
