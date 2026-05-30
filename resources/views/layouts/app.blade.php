@@ -15,125 +15,224 @@
 </head>
 <body>
 
-  <!-- Navigation Navbar -->
-  <header class="navbar navbar-expand-lg sticky-top navbar-light">
-    <div class="container">
-      <a class="navbar-brand logo" href="/">
-        🗳️ Sec<span>Vote</span>
-      </a>
-      
-      <!-- Election Status Badge (Voting Open) -->
-      <span class="badge bg-emerald-subtle text-emerald fw-bold border border-emerald-subtle rounded-pill px-3 py-1-5 align-middle ms-2 d-none d-sm-inline-flex align-items-center gap-1.5" style="background-color: #ecfdf5; color: #059669; font-size: 0.78rem;">
-        <span class="d-inline-block rounded-circle bg-success" style="width: 7px; height: 7px; animation: pulseGlow 1.8s infinite; background-color: #10b981;"></span>
-        Voting Open
-      </span>
-      
-      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-          @auth
-            @if (Auth::user()->role === 'voter')
-              <li class="nav-item">
-                <a class="nav-link {{ Route::is('voter.dashboard') || Route::is('vote.success') ? 'active' : '' }}" href="{{ route('voter.dashboard') }}">Dashboard Pemilu</a>
-              </li>
-            @else
-              <li class="nav-item">
-                <a class="nav-link {{ Route::is('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">Admin Panel</a>
-              </li>
-            @endif
-          @endauth
-        </ul>
-        
-        <div class="d-flex align-items-center gap-3">
-          @auth
-          <!-- Notification Bell Trigger -->
-          <button class="btn btn-link text-muted p-1 position-relative" style="box-shadow: none;" title="Notifikasi">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-bell" viewBox="0 0 16 16">
-              <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2M8 1.918l-.797.161A4 4 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4 4 0 0 0-3.203-3.92zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5 5 0 0 1 13 6c0 .88.32 4.2 1.22 6"/>
-            </svg>
-            <span class="position-absolute top-1 start-80 translate-middle p-1 bg-danger border border-white rounded-circle">
-              <span class="visually-hidden">New alerts</span>
-            </span>
-          </button>
-
-            <!-- User Profile Dropdown -->
-            <div class="dropdown ms-2">
-              <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle text-dark" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                <div class="rounded-circle text-white d-flex justify-content-center align-items-center me-2 fw-bold shadow-sm" style="width: 38px; height: 38px; background: linear-gradient(135deg, #2563EB, #4F46E5);">
-                  {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
-                </div>
-                <div class="d-none d-md-block text-start me-1">
-                  <strong class="d-block text-dark lh-1 mb-1" style="font-size: 0.88rem;">{{ Auth::user()->name }}</strong>
-                  <span class="badge px-2 py-0 rounded-pill" style="font-size:0.65rem; background-color: rgba(37, 99, 235, 0.08); color: #2563EB; border: 1px solid rgba(37, 99, 235, 0.2);">
-                    {{ Auth::user()->role === 'admin' ? 'Admin HIMA' : 'Pemilih' }}
-                  </span>
-                </div>
-              </a>
-              <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2 rounded-3" aria-labelledby="userDropdown" style="min-width: 200px;">
-                <li><h6 class="dropdown-header text-muted fw-bold">Menu Pengguna</h6></li>
-                <li><a class="dropdown-item py-2 d-flex align-items-center gap-2" href="#"><span style="font-size: 1.1rem;">👤</span> Profil Saya</a></li>
-                <li><a class="dropdown-item py-2 d-flex align-items-center gap-2" href="#"><span style="font-size: 1.1rem;">⚙️</span> Pengaturan</a></li>
-                <li><hr class="dropdown-divider border-light"></li>
-                <li>
-                  <form action="{{ route('logout') }}" method="POST" class="m-0">
-                    @csrf
-                    <button type="submit" class="dropdown-item py-2 text-danger fw-bold d-flex align-items-center gap-2"><span style="font-size: 1.1rem;">🚪</span> Keluar</button>
-                  </form>
-                </li>
-              </ul>
-            </div>
-          @else
-            <a href="{{ route('login') }}" class="btn btn-cyan btn-sm px-4">Masuk</a>
-          @endauth
-        </div>
+  @guest
+    <!-- Simple Top Navbar for guests -->
+    <header class="navbar navbar-expand-lg sticky-top navbar-light">
+      <div class="container">
+        <a class="navbar-brand logo text-decoration-none" href="/">
+          🗳️ Sec<span>Vote</span>
+        </a>
+        <a href="{{ route('login') }}" class="btn btn-cyan btn-sm px-4">Masuk</a>
       </div>
-    </div>
-  </header>
-
-  <!-- Main Container -->
-  <main class="container my-5" style="min-height: 70vh;">
+    </header>
     
-    <!-- Flash Notifications Alerts -->
-    <div id="alert-container">
-      @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show d-flex align-items-center gap-2 shadow-box border-glass" role="alert" style="background-color: #ecfdf5; border-color: rgba(16, 185, 129, 0.2); color: #065f46;">
-          <span>🔔</span>
-          <div>{{ session('success') }}</div>
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-      @endif
-
-      @if (session('error'))
-        <div class="alert alert-danger alert-dismissible fade show d-flex align-items-center gap-2 shadow-box border-glass" role="alert" style="background-color: #fef2f2; border-color: rgba(239, 68, 68, 0.2); color: #991b1b;">
-          <span>⚠️</span>
-          <div>{{ session('error') }}</div>
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-      @endif
-    </div>
-
-    @yield('content')
-  </main>
-
-  <!-- Footer -->
-  <footer class="text-center py-4 border-top border-glass text-muted small-text mt-5">
-    <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
-      <div>
-        <strong>Secure E-Voting System</strong> &copy; 2026. Universitas Negeri Surabaya.
+    <main class="container my-5" style="min-height: 70vh;">
+      <!-- Flash Notifications Alerts -->
+      <div id="alert-container">
+        @if (session('success'))
+          <div class="alert alert-success alert-dismissible fade show d-flex align-items-center gap-2 shadow-box border-glass mb-4" role="alert" style="background-color: #ecfdf5; border-color: rgba(16, 185, 129, 0.2); color: #065f46; border-radius: 12px;">
+            <span>🔔</span>
+            <div>{{ session('success') }}</div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        @endif
+        @if (session('error'))
+          <div class="alert alert-danger alert-dismissible fade show d-flex align-items-center gap-2 shadow-box border-glass mb-4" role="alert" style="background-color: #fef2f2; border-color: rgba(239, 68, 68, 0.2); color: #991b1b; border-radius: 12px;">
+            <span>⚠️</span>
+            <div>{{ session('error') }}</div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        @endif
       </div>
-      <div class="text-muted text-md-end">
-        Program Studi Informatika &bull; All Rights Reserved.
+      @yield('content')
+    </main>
+
+    <footer class="text-center py-4 border-top border-glass text-muted small-text mt-5">
+      <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
+        <div>
+          <strong>Secure E-Voting System</strong> &copy; 2026. Universitas Negeri Surabaya.
+        </div>
+        <div class="text-muted text-md-end">
+          Program Studi Informatika &bull; All Rights Reserved.
+        </div>
+      </div>
+    </footer>
+  @endguest
+
+  @auth
+    <div class="app-layout">
+      <!-- Sidebar Overlay for Mobile -->
+      <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+      <!-- Sidebar Wrapper -->
+      <aside class="sidebar-wrapper" id="sidebarWrapper">
+        <div class="sidebar-header">
+          <a class="logo text-decoration-none" href="/">
+            🗳️ Sec<span>Vote</span>
+          </a>
+          <!-- Close button on Mobile -->
+          <button class="btn btn-link text-muted d-lg-none p-0" id="closeSidebarBtn" style="box-shadow: none;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+              <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+            </svg>
+          </button>
+        </div>
+
+        <nav class="sidebar-menu">
+          @if (Auth::user()->role === 'voter')
+            <a class="nav-link {{ Route::is('voter.dashboard') || Route::is('vote.success') ? 'active' : '' }}" href="{{ route('voter.dashboard') }}">
+              <span>🗳️</span> Dashboard Pemilu
+            </a>
+          @else
+            <a class="nav-link {{ Route::is('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
+              <span>⚙️</span> Dashboard Admin
+            </a>
+          @endif
+
+          <a class="nav-link {{ Route::is('research.lab') ? 'active' : '' }}" href="{{ route('research.lab') }}">
+            <span>🔬</span> Lab Kriptografi
+          </a>
+
+          <a class="nav-link {{ Route::is('security.lab') ? 'active' : '' }}" href="{{ route('security.lab') }}">
+            <span>🛡️</span> Lab Injeksi SQL
+          </a>
+        </nav>
+
+        <!-- Sidebar Profile & Logout Footer -->
+        <div class="sidebar-footer">
+          <div class="d-flex align-items-center mb-3">
+            <div class="rounded-circle text-white d-flex justify-content-center align-items-center me-2 fw-bold shadow-sm" style="width: 38px; height: 38px; background: linear-gradient(135deg, #2563EB, #4F46E5); flex-shrink: 0;">
+              {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+            </div>
+            <div class="text-start" style="min-width: 0;">
+              <strong class="d-block text-dark lh-1 mb-1 text-truncate" style="font-size: 0.85rem;" title="{{ Auth::user()->name }}">{{ Auth::user()->name }}</strong>
+              <span class="badge px-2 py-0.5 rounded-pill" style="font-size:0.6rem; background-color: rgba(37, 99, 235, 0.08); color: #2563EB; border: 1px solid rgba(37, 99, 235, 0.2);">
+                {{ Auth::user()->role === 'admin' ? 'Admin HIMA' : 'Pemilih' }}
+              </span>
+            </div>
+          </div>
+          <form action="{{ route('logout') }}" method="POST" class="m-0">
+            @csrf
+            <button type="submit" class="btn btn-outline-danger btn-sm w-100 py-2 fw-bold d-flex align-items-center justify-content-center gap-2" style="border-radius: 10px;">
+              <span>🚪</span> Keluar
+            </button>
+          </form>
+        </div>
+      </aside>
+
+      <!-- Main Content Area -->
+      <main class="main-content">
+        <!-- Mobile Top Header (only visible on mobile/tablet) -->
+        <header class="main-content-header">
+          <button class="miniburger-btn" id="miniburgerBtn" title="Toggle Menu">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+            </svg>
+          </button>
+          
+          <span class="logo fs-5">
+            🗳️ Sec<span>Vote</span>
+          </span>
+          
+          <!-- Small Mobile User Profile Avatar -->
+          <div class="rounded-circle text-white d-flex justify-content-center align-items-center fw-bold shadow-sm" style="width: 32px; height: 32px; background: linear-gradient(135deg, #2563EB, #4F46E5); font-size: 0.85rem;">
+            {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+          </div>
+        </header>
+
+        <!-- Main Container Content -->
+        <div class="main-container-wrapper">
+          <!-- Flash Notifications Alerts -->
+          <div id="alert-container">
+            @if (session('success'))
+              <div class="alert alert-success alert-dismissible fade show d-flex align-items-center gap-2 shadow-box border-glass mb-4" role="alert" style="background-color: #ecfdf5; border-color: rgba(16, 185, 129, 0.2); color: #065f46; border-radius: 12px;">
+                <span>🔔</span>
+                <div>{{ session('success') }}</div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            @endif
+
+            @if (session('error'))
+              <div class="alert alert-danger alert-dismissible fade show d-flex align-items-center gap-2 shadow-box border-glass mb-4" role="alert" style="background-color: #fef2f2; border-color: rgba(239, 68, 68, 0.2); color: #991b1b; border-radius: 12px;">
+                <span>⚠️</span>
+                <div>{{ session('error') }}</div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            @endif
+          </div>
+
+          @yield('content')
+        </div>
+
+        <!-- Footer inside main content -->
+        <footer class="text-center py-4 border-top border-glass text-muted small-text mt-auto">
+          <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
+            <div>
+              <strong>Secure E-Voting System</strong> &copy; 2026. Universitas Negeri Surabaya.
+            </div>
+            <div class="text-muted text-md-end">
+              Program Studi Informatika &bull; All Rights Reserved.
+            </div>
+          </div>
+        </footer>
+      </main>
+    </div>
+  @endauth
+
+  @if (session('otp'))
+    <!-- Simulated Smartphone widget for OTP (Light HIG theme) -->
+    <div id="otp-email-widget">
+      <div class="email-widget-header px-3 py-2 d-flex align-items-center justify-content-between">
+        <span class="fw-bold text-dark">Simulasi Gmail Inbox 📱</span>
+        <span class="badge rounded-pill bg-danger border border-white" style="font-size: 0.65rem;">Baru</span>
+      </div>
+      <div class="email-widget-body p-3">
+        <h6 class="text-dark fw-bold mb-1" style="font-size: 0.85rem; font-weight: 700;">Dari: evoting@hima.univ.ac.id</h6>
+        <p class="text-muted small mb-2" style="font-size: 0.78rem;">Kepada: Anda</p>
+        <hr class="my-2 border-light">
+        <div class="text-center py-2">
+          <span class="text-muted small d-block mb-1">Kode OTP Verifikasi Anda:</span>
+          <div class="monospace-cyan fs-5 fw-extrabold px-3 py-1.5 d-inline-block rounded-3" id="email-widget-code-box" style="background: rgba(37, 99, 235, 0.05); color: var(--accent-blue); letter-spacing: 2px;">
+            {{ session('otp') }}
+          </div>
+        </div>
       </div>
     </div>
-  </footer>
-
-
+  @endif
 
   <!-- Bootstrap 5 Bundle JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Sidebar Responsive Toggle Handler -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const miniburgerBtn = document.getElementById('miniburgerBtn');
+      const closeSidebarBtn = document.getElementById('closeSidebarBtn');
+      const sidebarWrapper = document.getElementById('sidebarWrapper');
+      const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+      if (miniburgerBtn && sidebarWrapper && sidebarOverlay) {
+        miniburgerBtn.addEventListener('click', () => {
+          sidebarWrapper.classList.add('active');
+          sidebarOverlay.classList.add('active');
+        });
+      }
+
+      if (closeSidebarBtn && sidebarWrapper && sidebarOverlay) {
+        closeSidebarBtn.addEventListener('click', () => {
+          sidebarWrapper.classList.remove('active');
+          sidebarOverlay.classList.remove('active');
+        });
+      }
+
+      if (sidebarOverlay && sidebarWrapper) {
+        sidebarOverlay.addEventListener('click', () => {
+          sidebarWrapper.classList.remove('active');
+          sidebarOverlay.classList.remove('active');
+        });
+      }
+    });
+  </script>
 
   <style>
     @keyframes pulseGlow {
