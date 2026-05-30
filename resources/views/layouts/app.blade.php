@@ -13,7 +13,7 @@
   <!-- Chart.js for real-time results representation -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body>
+<body class="@guest auth-page @endguest">
 
   @guest
     <!-- Simple Top Navbar for guests -->
