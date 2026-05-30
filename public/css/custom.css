@@ -1,0 +1,457 @@
+/* SecVote Premium light SaaS Theme (Apple, Stripe & Vercel Inspired) */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --bg-primary: #F8FAFC;
+  --bg-secondary: #FFFFFF;
+  --bg-card: #FFFFFF;
+  --border-light: rgba(15, 23, 42, 0.08);
+  --border-focus: #2563EB;
+  
+  --accent-cyan: #2563EB; /* Deep Blue */
+  --accent-blue: #2563EB;
+  --accent-purple: #4F46E5; /* Indigo */
+  --accent-pink: #EF4444; /* Soft Red */
+  --accent-emerald: #10B981; /* Emerald */
+  
+  --grad-primary: linear-gradient(135deg, #2563EB 0%, #4F46E5 100%);
+  --grad-emerald: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  --grad-light: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
+  
+  --text-main: #0F172A; /* Dark Gray */
+  --text-muted: #64748B; /* Slate Gray */
+  --text-bright: #0F172A;
+  
+  --shadow-diffuse: 0 10px 30px -10px rgba(15, 23, 42, 0.08), 0 1px 3px rgba(15, 23, 42, 0.02);
+  --shadow-hover: 0 20px 40px -15px rgba(15, 23, 42, 0.15), 0 1px 5px rgba(15, 23, 42, 0.03);
+  --shadow-neon: 0 4px 14px 0 rgba(37, 99, 235, 0.3);
+  
+  --font-title: 'Outfit', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  
+  --transition-speed: 0.25s;
+}
+
+body {
+  background-color: var(--bg-primary);
+  background-image: radial-gradient(circle at 10% 20%, rgba(37, 99, 235, 0.03) 0%, transparent 40%),
+                    radial-gradient(circle at 90% 80%, rgba(79, 70, 229, 0.03) 0%, transparent 40%);
+  background-attachment: fixed;
+  color: var(--text-main);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Typography override */
+h1, h2, h3, h4, h5, h6, .logo {
+  font-family: var(--font-title);
+  color: var(--text-main);
+}
+
+.fw-extrabold {
+  font-weight: 800;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  background: var(--grad-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.logo span {
+  color: var(--text-main);
+  -webkit-text-fill-color: var(--text-main);
+  font-weight: 400;
+}
+
+/* Glassmorphism Navigation (Apple Inspired) */
+.navbar {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.8) !important;
+  border-bottom: 1px solid var(--border-light);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.02);
+}
+
+.navbar .nav-link {
+  color: var(--text-muted) !important;
+  font-size: 0.92rem;
+  font-weight: 500;
+  padding: 0.4rem 0.9rem !important;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all var(--transition-speed) ease;
+}
+
+.navbar .nav-link:hover, .navbar .nav-link.active {
+  color: var(--accent-blue) !important;
+  background: rgba(37, 99, 235, 0.05);
+}
+
+.navbar .nav-link.active {
+  font-weight: 600;
+}
+
+/* Bootstrap Card Customization */
+.card {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border-light) !important;
+  border-radius: 20px !important;
+  color: var(--text-main);
+  box-shadow: var(--shadow-diffuse);
+  transition: all var(--transition-speed) cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+  border-color: rgba(37, 99, 235, 0.15) !important;
+}
+
+.shadow-box {
+  box-shadow: var(--shadow-diffuse) !important;
+}
+
+/* Custom Containers */
+.bg-glass-dark {
+  background: #FFFFFF !important;
+  border: 1px solid var(--border-light) !important;
+}
+
+.bg-glass-light {
+  background: #F8FAFC !important;
+  border: 1px solid var(--border-light) !important;
+}
+
+.bg-glass-danger {
+  background: rgba(239, 68, 68, 0.02) !important;
+  border: 1px solid rgba(239, 68, 68, 0.1) !important;
+}
+
+.border-glass {
+  border: 1px solid var(--border-light) !important;
+}
+
+.border-cyan {
+  border-color: rgba(37, 99, 235, 0.25) !important;
+}
+
+.border-danger {
+  border-color: rgba(239, 68, 68, 0.25) !important;
+}
+
+/* Custom Text Colors */
+.text-cyan {
+  color: var(--accent-blue) !important;
+}
+
+.text-purple {
+  color: var(--accent-purple) !important;
+}
+
+.text-danger {
+  color: var(--accent-pink) !important;
+}
+
+/* Custom Form inputs */
+.form-control {
+  background-color: #FFFFFF !important;
+  border: 1px solid rgba(15, 23, 42, 0.12) !important;
+  color: var(--text-main) !important;
+  font-family: var(--font-body);
+  border-radius: 10px !important;
+  padding: 0.65rem 1rem !important;
+  transition: all 0.2s ease;
+}
+
+.form-control:focus {
+  outline: none !important;
+  border-color: var(--border-focus) !important;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12) !important;
+}
+
+.form-control::placeholder {
+  color: #94A3B8 !important;
+}
+
+/* Custom Buttons */
+.btn-cyan {
+  background: var(--grad-primary);
+  color: #FFFFFF !important;
+  border: none;
+  font-weight: 600;
+  border-radius: 10px;
+  padding: 0.6rem 1.5rem;
+  box-shadow: var(--shadow-neon);
+  transition: all 0.2s ease;
+}
+
+.btn-cyan:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
+}
+
+.btn-purple {
+  background: var(--grad-emerald);
+  color: #FFFFFF !important;
+  border: none;
+  font-weight: 600;
+  border-radius: 10px;
+  padding: 0.6rem 1.5rem;
+  box-shadow: 0 4px 14px 0 rgba(16, 185, 129, 0.3);
+  transition: all 0.2s ease;
+}
+
+.btn-purple:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+}
+
+.btn-outline-cyan {
+  border: 1px solid var(--accent-blue);
+  color: var(--accent-blue);
+  background: transparent;
+  font-weight: 600;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+}
+
+.btn-outline-cyan:hover {
+  background: rgba(37, 99, 235, 0.05);
+  color: var(--accent-blue);
+}
+
+.btn-danger {
+  border-color: var(--accent-pink) !important;
+  color: var(--accent-pink) !important;
+  background: transparent !important;
+  border-radius: 10px !important;
+}
+
+.btn-danger:hover {
+  background: rgba(239, 68, 68, 0.05) !important;
+  color: var(--accent-pink) !important;
+}
+
+/* Navigation Tabs Auth */
+#auth-tabs .nav-link {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid transparent;
+  border-radius: 10px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+#auth-tabs .nav-link.active {
+  background: #FFFFFF;
+  color: var(--accent-blue);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
+  border: 1px solid var(--border-light);
+}
+
+/* OTP Code Box Inputs */
+.otp-container .otp-input {
+  width: 48px;
+  height: 56px;
+  font-size: 1.6rem;
+  font-weight: 700;
+  text-align: center;
+  border-radius: 12px;
+  background: #FFFFFF;
+  border: 1px solid rgba(15, 23, 42, 0.15);
+  color: var(--accent-blue);
+  transition: all 0.2s ease;
+}
+
+.otp-container .otp-input:focus {
+  outline: none;
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+/* Voter Status Alert bar styling */
+.voter-status-bar {
+  background: #FFFFFF;
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-diffuse);
+}
+
+/* Simulated Smartphone widget for OTP (Light HIG theme) */
+#otp-email-widget {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  width: 330px;
+  background: #FFFFFF;
+  border: 1px solid var(--border-light);
+  border-radius: 16px;
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.15);
+  z-index: 1000;
+  overflow: hidden;
+  animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.email-widget-header {
+  background: #F8FAFC;
+  color: var(--text-main);
+  border-bottom: 1px solid var(--border-light);
+  font-size: 0.85rem;
+}
+
+/* Monospace fonts for cryptographic labels */
+.monospace {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 0.82rem;
+  color: var(--accent-purple);
+  background: #F1F5F9;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  word-break: break-all;
+}
+
+.monospace-cyan {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 0.82rem;
+  color: var(--accent-blue);
+  background: rgba(37, 99, 235, 0.05);
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  word-break: break-all;
+}
+
+/* Tables styling */
+.table {
+  font-size: 0.88rem;
+  margin-bottom: 0;
+  --bs-table-bg: transparent !important;
+}
+
+.table th {
+  background: #F8FAFC !important;
+  color: var(--text-main) !important;
+  font-weight: 600;
+  border-bottom: 1px solid var(--border-light) !important;
+}
+
+.table td {
+  color: var(--text-main) !important;
+  border-bottom: 1px solid var(--border-light) !important;
+  vertical-align: middle;
+}
+
+/* Code sandbox viewer */
+.code-viewer {
+  background: #0F172A;
+  border: 1px solid #1E293B;
+  border-radius: 12px;
+  padding: 1.25rem;
+  font-family: 'SFMono-Regular', Consolas, Menlo, monospace;
+  font-size: 0.8rem;
+  color: #E2E8F0;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+/* Dynamic success graphics */
+.success-overlay {
+  background: #FFFFFF !important;
+}
+
+.success-icon {
+  font-size: 4rem;
+  color: var(--accent-emerald);
+  animation: pulse 2.5s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* Responsive view controls */
+.view-section {
+  animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Candidates Card design (Horizontal Premium Stripe Style) */
+.candidate-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 2rem;
+  height: 100%;
+}
+
+.candidate-avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--accent-blue);
+  background: rgba(37, 99, 235, 0.08);
+  flex-shrink: 0;
+}
+
+.col-md-6:nth-child(even) .candidate-avatar {
+  background: rgba(79, 70, 229, 0.08);
+  color: var(--accent-purple);
+}
+
+.candidate-body {
+  flex-grow: 1;
+}
+
+/* Trust Badges styling */
+.security-badge-card {
+  text-align: center;
+  padding: 1.5rem;
+  background: #FFFFFF;
+  border: 1px solid var(--border-light);
+  border-radius: 16px;
+  box-shadow: var(--shadow-diffuse);
+}
+
+.security-badge-icon {
+  font-size: 2rem;
+  margin-bottom: 0.75rem;
+  display: inline-block;
+}
+
+/* Modal adjustments (AppleHIG style) */
+.modal-content {
+  border-radius: 24px !important;
+  border: 1px solid var(--border-light) !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+}
+
+.modal-header {
+  border-bottom: 1px solid var(--border-light) !important;
+}
+
+.modal-footer {
+  border-top: 1px solid var(--border-light) !important;
+}
+
+/* Small adjustments */
+.small-text {
+  font-size: 0.75rem;
+}
+.tracking-wider {
+  letter-spacing: 0.05em;
+}
