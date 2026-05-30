@@ -659,12 +659,47 @@ body.auth-page::before {
   box-shadow: 0 25px 60px -15px rgba(15, 23, 42, 0.12), 0 1px 3px rgba(15, 23, 42, 0.02) !important;
   padding: 2.75rem 2.5rem !important;
   transition: all var(--transition-speed) ease;
+  animation: authCardEntrance 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .auth-card:hover {
   transform: none !important;
   box-shadow: 0 35px 80px -20px rgba(15, 23, 42, 0.16) !important;
 }
+
+@keyframes authCardEntrance {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes authItemEntrance {
+  0% {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.auth-staggered {
+  opacity: 0;
+  animation: authItemEntrance 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.auth-delay-1 { animation-delay: 0.1s; }
+.auth-delay-2 { animation-delay: 0.18s; }
+.auth-delay-3 { animation-delay: 0.26s; }
+.auth-delay-4 { animation-delay: 0.34s; }
+.auth-delay-5 { animation-delay: 0.42s; }
+
 
 .auth-label {
   font-family: var(--font-body);
