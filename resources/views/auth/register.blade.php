@@ -4,6 +4,13 @@
 
 @section('content')
 <div class="auth-card-wrapper" style="max-width: 460px; margin: auto;">
+  <!-- Centered brand logo -->
+  <div class="text-center mb-4">
+    <a class="logo text-decoration-none text-white fs-2" href="/" style="background: none; -webkit-background-clip: unset; -webkit-text-fill-color: #FFFFFF; color: #FFFFFF; font-weight: 800; text-shadow: 0 2px 4px rgba(15, 23, 42, 0.15);">
+      🗳️ Sec<span>Vote</span>
+    </a>
+  </div>
+
   <div class="card auth-card">
     <div class="text-center mb-4">
       <h2 class="fw-extrabold text-dark" style="letter-spacing: -0.5px;">Sistem E-Voting HIMA</h2>

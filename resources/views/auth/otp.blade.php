@@ -4,6 +4,13 @@
 
 @section('content')
 <div class="auth-card-wrapper" style="max-width: 460px; margin: auto;">
+  <!-- Centered brand logo -->
+  <div class="text-center mb-4">
+    <a class="logo text-decoration-none text-white fs-2" href="/" style="background: none; -webkit-background-clip: unset; -webkit-text-fill-color: #FFFFFF; color: #FFFFFF; font-weight: 800; text-shadow: 0 2px 4px rgba(15, 23, 42, 0.15);">
+      🗳️ Sec<span>Vote</span>
+    </a>
+  </div>
+
   <div class="card auth-card">
     <div class="candidate-avatar mx-auto mb-4" style="background: rgba(93, 108, 240, 0.08); color: #5D6CF0; width: 64px; height: 64px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 1.75rem;">🔑</div>
     <h3 class="fw-bold text-dark mb-1 text-center" style="letter-spacing: -0.5px; font-size: 1.75rem;">Verifikasi OTP</h3>
