@@ -16,47 +16,9 @@
 <body class="@guest auth-page @endguest">
 
   @guest
-    <!-- Simple Top Navbar for guests -->
-    <header class="navbar navbar-expand-lg sticky-top navbar-light">
-      <div class="container">
-        <a class="navbar-brand logo text-decoration-none" href="/">
-          🗳️ Sec<span>Vote</span>
-        </a>
-        <a href="{{ route('login') }}" class="btn btn-cyan btn-sm px-4">Masuk</a>
-      </div>
-    </header>
-    
-    <main class="container my-5" style="min-height: 70vh;">
-      <!-- Flash Notifications Alerts -->
-      <div id="alert-container">
-        @if (session('success'))
-          <div class="alert alert-success alert-dismissible fade show d-flex align-items-center gap-2 shadow-box border-glass mb-4" role="alert" style="background-color: #ecfdf5; border-color: rgba(16, 185, 129, 0.2); color: #065f46; border-radius: 12px;">
-            <span>🔔</span>
-            <div>{{ session('success') }}</div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-        @endif
-        @if (session('error'))
-          <div class="alert alert-danger alert-dismissible fade show d-flex align-items-center gap-2 shadow-box border-glass mb-4" role="alert" style="background-color: #fef2f2; border-color: rgba(239, 68, 68, 0.2); color: #991b1b; border-radius: 12px;">
-            <span>⚠️</span>
-            <div>{{ session('error') }}</div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-        @endif
-      </div>
+    <main style="min-height: 100vh; width: 100vw; display: flex; align-items: center; justify-content: center; padding: 2rem; position: relative; z-index: 2;">
       @yield('content')
     </main>
-
-    <footer class="text-center py-4 border-top border-glass text-muted small-text mt-5">
-      <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
-        <div>
-          <strong>Secure E-Voting System</strong> &copy; 2026. Universitas Negeri Surabaya.
-        </div>
-        <div class="text-muted text-md-end">
-          Program Studi Informatika &bull; All Rights Reserved.
-        </div>
-      </div>
-    </footer>
   @endguest
 
   @auth

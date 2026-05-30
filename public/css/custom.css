@@ -618,9 +618,9 @@ h1, h2, h3, h4, h5, h6, .logo {
   }
 }
 
-/* --- Animated Radial Mesh Gradient for Guest Auth Pages --- */
+/* --- Animated Radial Mesh Gradient for Guest Auth Pages (Vibrant Peppo Style) --- */
 body.auth-page {
-  background-color: #F8FAFC !important;
+  background-color: #F0F4FF !important;
   background-image: none !important;
   position: relative;
   overflow-x: hidden;
@@ -635,19 +635,121 @@ body.auth-page::before {
   bottom: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle at 30% 30%, rgba(37, 99, 235, 0.05) 0%, transparent 40%),
-              radial-gradient(circle at 70% 70%, rgba(79, 70, 229, 0.06) 0%, transparent 45%),
-              radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.04) 0%, transparent 35%),
-              radial-gradient(circle at 20% 80%, rgba(79, 70, 229, 0.04) 0%, transparent 35%);
-  animation: rotateGradient 25s linear infinite;
+  background: radial-gradient(circle at 15% 15%, rgba(93, 108, 240, 0.45) 0%, transparent 50%),
+              radial-gradient(circle at 85% 85%, rgba(93, 108, 240, 0.35) 0%, transparent 50%),
+              radial-gradient(circle at 50% 50%, rgba(56, 189, 248, 0.35) 0%, transparent 45%),
+              radial-gradient(circle at 80% 20%, rgba(192, 132, 252, 0.35) 0%, transparent 45%),
+              radial-gradient(circle at 20% 80%, rgba(165, 180, 252, 0.3) 0%, transparent 40%);
+  animation: rotateGradient 28s ease infinite alternate;
   z-index: -1;
   pointer-events: none;
 }
 
 @keyframes rotateGradient {
-  0% { transform: rotate(0deg); }
-  50% { transform: rotate(180deg) scale(1.1); }
-  100% { transform: rotate(360deg); }
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.15); }
+  100% { transform: rotate(360deg) scale(1); }
 }
+
+/* Premium Peppo Auth Card Components */
+.auth-card {
+  background: #FFFFFF !important;
+  border: 1px solid rgba(15, 23, 42, 0.04) !important;
+  border-radius: 28px !important;
+  box-shadow: 0 25px 60px -15px rgba(15, 23, 42, 0.12), 0 1px 3px rgba(15, 23, 42, 0.02) !important;
+  padding: 2.75rem 2.5rem !important;
+  transition: all var(--transition-speed) ease;
+}
+
+.auth-card:hover {
+  transform: none !important;
+  box-shadow: 0 35px 80px -20px rgba(15, 23, 42, 0.16) !important;
+}
+
+.auth-label {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #1E293B !important;
+  margin-bottom: 0.5rem;
+}
+
+.auth-input {
+  border-radius: 12px !important;
+  border: 1px solid rgba(15, 23, 42, 0.12) !important;
+  padding: 0.75rem 1rem !important;
+  font-size: 0.95rem !important;
+}
+
+.auth-input:focus {
+  border-color: #5D6CF0 !important;
+  box-shadow: 0 0 0 3px rgba(93, 108, 240, 0.12) !important;
+}
+
+/* Password Toggle Wrapper */
+.password-toggle-wrapper {
+  position: relative;
+}
+
+.password-toggle-btn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: #94A3B8;
+  cursor: pointer;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+}
+
+.password-toggle-btn:hover {
+  color: #64748B;
+}
+
+.auth-btn-primary {
+  background: #5D6CF0 !important;
+  color: #FFFFFF !important;
+  border: none;
+  font-weight: 600;
+  border-radius: 12px !important;
+  padding: 0.75rem 1.5rem !important;
+  transition: all 0.2s ease;
+  font-size: 0.95rem;
+  box-shadow: 0 4px 14px 0 rgba(93, 108, 240, 0.25) !important;
+}
+
+.auth-btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(93, 108, 240, 0.35) !important;
+  background: #4C5BDC !important;
+}
+
+.auth-btn-google {
+  background: #FFFFFF !important;
+  color: #1E293B !important;
+  border: 1px solid rgba(15, 23, 42, 0.12) !important;
+  font-weight: 500;
+  border-radius: 12px !important;
+  padding: 0.75rem 1.5rem !important;
+  transition: all 0.2s ease;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02) !important;
+}
+
+.auth-btn-google:hover {
+  background: #F8FAFC !important;
+  border-color: rgba(15, 23, 42, 0.18) !important;
+  transform: translateY(-1px);
+}
+
 
 
