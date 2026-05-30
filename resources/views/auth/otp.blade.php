@@ -3,22 +3,7 @@
 @section('title', 'Verifikasi OTP - SecVote')
 
 @section('content')
-<!-- Absolute Home page link -->
-<a href="/" class="text-white text-decoration-none small position-absolute top-0 start-0 m-4 d-flex align-items-center gap-1.5" style="z-index: 10;">
-  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
-    <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
-  </svg>
-  Home page
-</a>
-
-<div class="auth-card-wrapper" style="max-width: 440px;">
-  <!-- Centered brand logo -->
-  <div class="text-center mb-4">
-    <a class="logo text-decoration-none text-white fs-3" href="/" style="background: none; -webkit-background-clip: unset; -webkit-text-fill-color: #FFFFFF; color: #FFFFFF; font-weight: 800; text-shadow: 0 2px 4px rgba(15, 23, 42, 0.1);">
-      🗳️ Sec<span>Vote</span>
-    </a>
-  </div>
-
+<div class="auth-card-wrapper" style="max-width: 460px; margin: auto;">
   <div class="card auth-card">
     <div class="candidate-avatar mx-auto mb-4" style="background: rgba(93, 108, 240, 0.08); color: #5D6CF0; width: 64px; height: 64px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 1.75rem;">🔑</div>
     <h3 class="fw-bold text-dark mb-1 text-center" style="letter-spacing: -0.5px; font-size: 1.75rem;">Verifikasi OTP</h3>
