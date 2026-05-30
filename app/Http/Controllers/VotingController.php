@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Vote;
 use App\Models\Candidate;
+use App\Models\VotingCategory;
 use App\Models\AuditLog;
 use App\Services\CryptoService;
 use Illuminate\Http\Request;
@@ -23,19 +24,16 @@ class VotingController extends Controller
             return redirect()->route('admin.dashboard');
         }
 
-        if ($user->has_voted) {
-            return redirect()->route('vote.success');
-        }
-
-        $candidates = Candidate::all();
+        $categories = VotingCategory::with('candidates')->get();
+        $votedCategoryIds = $user->votedCategories()->pluck('voting_categories.id')->toArray();
         $votingOpen = Cache::get('voting_open', true);
 
         // Dynamic stats compiler for Hero Section
         $totalVoters = User::where('role', 'voter')->count();
-        $votedCount = User::where('role', 'voter')->where('has_voted', true)->count();
+        $votedCount = User::whereHas('votedCategories')->count(); // Voters who voted in at least one category
         $turnoutPercentage = $totalVoters > 0 ? round(($votedCount / $totalVoters) * 100) : 0;
 
-        return view('voter.dashboard', compact('candidates', 'votingOpen', 'totalVoters', 'votedCount', 'turnoutPercentage'));
+        return view('voter.dashboard', compact('categories', 'votedCategoryIds', 'votingOpen', 'totalVoters', 'votedCount', 'turnoutPercentage'));
     }
 
     /**
@@ -67,16 +65,17 @@ class VotingController extends Controller
             return redirect()->back()->with('error', 'Kandidat tidak ditemukan.');
         }
 
-        // 1. One Person One Vote Lock Check
-        $dbUser = User::find($user->id);
-        if ($dbUser->has_voted) {
+        $categoryId = $candidate->voting_category_id;
+
+        // 1. One Person One Vote Lock Check per Category
+        if ($user->votedCategories()->where('voting_categories.id', $categoryId)->exists()) {
             AuditLog::create([
                 'event' => 'DOUBLE_VOTE_BLOCKED',
-                'details' => "Double voting attempt blocked for NIM: {$user->nim}.",
+                'details' => "Double voting attempt blocked for NIM: {$user->nim} in category ID {$categoryId}.",
                 'ip_address' => $ip
             ]);
 
-            return redirect()->route('vote.success')->with('error', 'Anda sudah menggunakan hak suara Anda!');
+            return redirect()->back()->with('error', 'Anda sudah menggunakan hak suara Anda untuk kategori pemilihan ini!');
         }
 
         // 2. Encryption (AES-256-GCM)
@@ -86,7 +85,9 @@ class VotingController extends Controller
             return redirect()->back()->with('error', 'Kesalahan sistem saat enkripsi suara.');
         }
 
-        // 3. Mark User as Voted
+        // 3. Mark User as Voted in Category
+        $user->votedCategories()->attach($categoryId);
+        $dbUser = User::find($user->id);
         $dbUser->has_voted = true;
         $dbUser->save();
 
@@ -95,6 +96,7 @@ class VotingController extends Controller
             'encrypted_candidate' => $encrypted['ciphertext'],
             'iv' => $encrypted['iv'],
             'tag' => $encrypted['tag'],
+            'voting_category_id' => $categoryId,
             'timestamp' => now()
         ]);
 

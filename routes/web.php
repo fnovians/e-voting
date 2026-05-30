@@ -43,8 +43,12 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth', AdminMiddleware::class])->group(function () {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
     Route::post('/admin/candidates', [AdminController::class, 'createCandidate'])->name('admin.candidate.create');
+    Route::post('/admin/candidates/{id}/update', [AdminController::class, 'updateCandidate'])->name('admin.candidate.update');
     Route::post('/admin/candidates/{id}/delete', [AdminController::class, 'deleteCandidate'])->name('admin.candidate.delete');
     Route::post('/admin/toggle-voting', [AdminController::class, 'toggleVoting'])->name('admin.toggle-voting');
+    Route::post('/admin/categories', [AdminController::class, 'createCategory'])->name('admin.category.create');
+    Route::post('/admin/categories/{id}/delete', [AdminController::class, 'deleteCategory'])->name('admin.category.delete');
+    Route::post('/admin/voters/{id}/update', [AdminController::class, 'updateVoter'])->name('admin.voter.update');
     Route::post('/admin/voters/{id}/delete', [AdminController::class, 'deleteVoter'])->name('admin.voter.delete');
 });
 

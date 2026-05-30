@@ -34,7 +34,7 @@
         </div>
         <div class="mb-3">
           <label class="form-label text-muted small fw-bold">Email Kampus</label>
-          <input type="email" name="email" class="form-control" placeholder="Contoh: fajar@mahasiswa.univ.ac.id" value="{{ old('email') }}" required>
+          <input type="email" name="email" class="form-control" placeholder="Contoh: fajar@mhs.unesa.ac.id" value="{{ old('email') }}" required>
         </div>
         <div class="mb-3 mb-4">
           <label class="form-label text-muted small fw-bold">Password Baru</label>

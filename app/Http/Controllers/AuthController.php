@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\OtpMail;
 
 class AuthController extends Controller
 {
@@ -83,11 +85,32 @@ class AuthController extends Controller
             }
 
             if (Hash::check($password, $user->password)) {
-                // Generate 6-digit OTP code
+                
+                // Bypass OTP for Admin
+                if ($user->role === 'admin') {
+                    Auth::login($user);
+                    
+                    AuditLog::create([
+                        'event' => 'LOGIN_SUCCESS',
+                        'details' => "Admin successful login (Bypass OTP) for NIM: {$user->nim}",
+                        'ip_address' => $ip
+                    ]);
+
+                    return redirect()->route('admin.dashboard')->with('success', 'Berhasil masuk ke panel Admin!');
+                }
+
+                // Generate 6-digit OTP code untuk Voter
                 $otp = strval(rand(100000, 999999));
                 $user->otp_code = $otp;
                 $user->otp_expires_at = now()->addMinutes(5);
                 $user->save();
+
+                // Send the actual OTP email
+                try {
+                    Mail::to($user->email)->send(new OtpMail($otp));
+                } catch (\Exception $e) {
+                    \Illuminate\Support\Facades\Log::error("Gagal mengirim OTP ke email: " . $e->getMessage());
+                }
 
                 // Temp session storage
                 session(['temp_user_id' => $user->id]);
@@ -98,9 +121,9 @@ class AuthController extends Controller
                     'ip_address' => $ip
                 ]);
 
-                // Redirect to OTP page with data for the simulated smartphone notification widget
+                // Redirect to OTP page
                 return redirect()->route('otp')->with([
-                    'success' => 'Kredensial valid. OTP telah dikirim!',
+                    'success' => 'Kredensial valid. OTP telah dikirim ke email Anda!',
                     'otp' => $otp,
                     'temp_email' => $user->email
                 ]);
@@ -208,9 +231,10 @@ class AuthController extends Controller
         if ($otp === $user->otp_code) {
             $otpCode = $user->otp_code;
             
-            // Clear OTP
+            // Clear OTP and mark as verified
             $user->otp_code = null;
             $user->otp_expires_at = null;
+            $user->is_verified = true;
             $user->save();
 
             // Fully login
@@ -263,13 +287,18 @@ class AuthController extends Controller
             return redirect()->back()->withInput()->with('error', 'Email sudah terdaftar.');
         }
 
+        if (!str_ends_with(strtolower($email), '@mhs.unesa.ac.id')) {
+            return redirect()->back()->withInput()->with('error', 'Hanya email kampus berakhiran @mhs.unesa.ac.id yang diizinkan untuk mendaftar.');
+        }
+
         $user = User::create([
             'nim' => $nim,
             'name' => $name,
             'email' => $email,
             'password' => Hash::make($password),
             'role' => 'voter',
-            'has_voted' => false
+            'has_voted' => false,
+            'is_verified' => false
         ]);
 
         AuditLog::create([

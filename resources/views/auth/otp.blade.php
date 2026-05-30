@@ -27,9 +27,7 @@
         <button type="submit" class="btn btn-cyan w-100 py-2.5">Verifikasi & Masuk</button>
       </form>
 
-      <p class="text-muted small mt-4 mb-0" style="font-size: 0.78rem;">
-        Gunakan widget inbox simulasi di pojok kanan bawah untuk menyalin kode OTP tanpa SMTP server.
-      </p>
+
     </div>
   </div>
 </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Vote;
 use App\Models\Candidate;
+use App\Models\VotingCategory;
 use App\Models\AuditLog;
 use App\Services\CryptoService;
 use Illuminate\Http\Request;
@@ -52,8 +53,9 @@ class AdminController extends Controller
 
         $voters = User::where('role', 'voter')->select('id', 'nim', 'name', 'email', 'has_voted')->get();
         $logs = AuditLog::orderBy('created_at', 'desc')->take(10)->get();
+        $categories = VotingCategory::with('candidates')->get();
 
-        return view('admin.dashboard', compact('turnout', 'chartData', 'voters', 'logs', 'votingOpen'));
+        return view('admin.dashboard', compact('turnout', 'chartData', 'voters', 'logs', 'votingOpen', 'categories'));
     }
 
     /**
@@ -64,9 +66,10 @@ class AdminController extends Controller
         $name = $request->input('name');
         $vision = $request->input('vision');
         $mission = $request->input('mission');
+        $categoryId = $request->input('voting_category_id');
 
-        if (empty($name) || empty($vision) || empty($mission)) {
-            return redirect()->back()->with('error', 'Semua kolom kandidat harus diisi.');
+        if (empty($name) || empty($vision) || empty($mission) || empty($categoryId)) {
+            return redirect()->back()->with('error', 'Semua kolom kandidat dan kategori harus diisi.');
         }
 
         $photoPath = null;
@@ -80,8 +83,9 @@ class AdminController extends Controller
                 return redirect()->back()->with('error', 'Berkas foto harus berupa gambar (jpeg, png, jpg, gif, svg).');
             }
             
-            if ($file->getSize() > 2 * 1024 * 1024) {
-                return redirect()->back()->with('error', 'Ukuran foto maksimal adalah 2MB.');
+            // Max 5MB
+            if ($file->getSize() > 5 * 1024 * 1024) {
+                return redirect()->back()->with('error', 'Ukuran foto maksimal adalah 5MB.');
             }
 
             $filename = time() . '_' . preg_replace('/[^a-zA-Z0-9_.-]/', '', $file->getClientOriginalName());
@@ -99,7 +103,8 @@ class AdminController extends Controller
             'name' => $name,
             'vision' => $vision,
             'mission' => $mission,
-            'photo' => $photoPath
+            'photo' => $photoPath,
+            'voting_category_id' => $categoryId
         ]);
 
         AuditLog::create([
@@ -131,6 +136,60 @@ class AdminController extends Controller
         ]);
 
         return redirect()->back()->with('success', 'Kandidat berhasil dihapus.');
+    }
+
+    /**
+     * Updates candidate
+     */
+    public function updateCandidate($id, Request $request)
+    {
+        $candidate = Candidate::find($id);
+        if (!$candidate) {
+            return redirect()->back()->with('error', 'Kandidat tidak ditemukan.');
+        }
+
+        $candidate->name = $request->input('name', $candidate->name);
+        $candidate->vision = $request->input('vision', $candidate->vision);
+        $candidate->mission = $request->input('mission', $candidate->mission);
+        if ($request->has('voting_category_id')) {
+            $candidate->voting_category_id = $request->input('voting_category_id');
+        }
+
+        if ($request->hasFile('photo')) {
+            $file = $request->file('photo');
+            
+            $allowedExtensions = ['jpeg', 'png', 'jpg', 'gif', 'svg'];
+            $ext = strtolower($file->getClientOriginalExtension());
+            
+            if (!in_array($ext, $allowedExtensions)) {
+                return redirect()->back()->with('error', 'Berkas foto harus berupa gambar (jpeg, png, jpg, gif, svg).');
+            }
+            
+            // Max 5MB
+            if ($file->getSize() > 5 * 1024 * 1024) {
+                return redirect()->back()->with('error', 'Ukuran foto maksimal adalah 5MB.');
+            }
+
+            $filename = time() . '_' . preg_replace('/[^a-zA-Z0-9_.-]/', '', $file->getClientOriginalName());
+            
+            $targetDir = public_path('uploads/candidates');
+            if (!file_exists($targetDir)) {
+                mkdir($targetDir, 0755, true);
+            }
+            
+            $file->move($targetDir, $filename);
+            $candidate->photo = 'uploads/candidates/' . $filename;
+        }
+
+        $candidate->save();
+
+        AuditLog::create([
+            'event' => 'CANDIDATE_UPDATED',
+            'details' => "Admin updated candidate ID $id: {$candidate->name}",
+            'ip_address' => $request->ip()
+        ]);
+
+        return redirect()->back()->with('success', 'Data kandidat berhasil diperbarui.');
     }
 
     /**
@@ -172,5 +231,82 @@ class AdminController extends Controller
         ]);
 
         return redirect()->back()->with('success', 'Akun pemilih berhasil dihapus.');
+    }
+
+    /**
+     * Updates voter information
+     */
+    public function updateVoter($id, Request $request)
+    {
+        $voter = User::find($id);
+        if (!$voter || $voter->role === 'admin') {
+            return redirect()->back()->with('error', 'Pemilih tidak ditemukan.');
+        }
+
+        $voter->name = $request->input('name', $voter->name);
+        $voter->nim = $request->input('nim', $voter->nim);
+        $voter->email = $request->input('email', $voter->email);
+
+        if ($request->filled('password')) {
+            $voter->password = \Illuminate\Support\Facades\Hash::make($request->input('password'));
+        }
+
+        $voter->save();
+
+        AuditLog::create([
+            'event' => 'USER_UPDATED',
+            'details' => "Admin updated voter account: NIM {$voter->nim}",
+            'ip_address' => $request->ip()
+        ]);
+
+        return redirect()->back()->with('success', 'Akun pemilih berhasil diperbarui.');
+    }
+
+    /**
+     * Creates new Category
+     */
+    public function createCategory(Request $request)
+    {
+        $name = $request->input('name');
+        $description = $request->input('description');
+
+        if (empty($name)) {
+            return redirect()->back()->with('error', 'Nama kategori harus diisi.');
+        }
+
+        $category = VotingCategory::create([
+            'name' => $name,
+            'description' => $description
+        ]);
+
+        AuditLog::create([
+            'event' => 'CATEGORY_CREATED',
+            'details' => "Admin created category: {$category->name}",
+            'ip_address' => $request->ip()
+        ]);
+
+        return redirect()->back()->with('success', 'Kategori baru berhasil ditambahkan.');
+    }
+
+    /**
+     * Deletes Category
+     */
+    public function deleteCategory($id, Request $request)
+    {
+        $category = VotingCategory::find($id);
+        if (!$category) {
+            return redirect()->back()->with('error', 'Kategori tidak ditemukan.');
+        }
+
+        $name = $category->name;
+        $category->delete();
+
+        AuditLog::create([
+            'event' => 'CATEGORY_DELETED',
+            'details' => "Admin deleted category: $name",
+            'ip_address' => $request->ip()
+        ]);
+
+        return redirect()->back()->with('success', 'Kategori berhasil dihapus beserta kandidat di dalamnya.');
     }
 }
