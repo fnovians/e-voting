@@ -29,18 +29,21 @@
       <!-- Sidebar Wrapper -->
       <aside class="sidebar-wrapper" id="sidebarWrapper">
         <div class="sidebar-header">
-          <a class="logo text-decoration-none d-inline-flex align-items-center" href="/">
+          <a class="logo text-decoration-none d-inline-flex align-items-center gap-2" href="/">
             @if(file_exists(public_path('assets/img/logo.svg')))
-              <img src="{{ asset('assets/img/logo.svg') }}" alt="SecVote Logo" style="height: 42px; object-fit: contain;">
+              <img src="{{ asset('assets/img/logo.svg') }}" alt="SecVote Logo" style="height: 48px; object-fit: contain;">
             @elseif(file_exists(public_path('assets/img/logo.png')))
-              <img src="{{ asset('assets/img/logo.png') }}" alt="SecVote Logo" style="height: 42px; object-fit: contain;">
+              <img src="{{ asset('assets/img/logo.png') }}" alt="SecVote Logo" style="height: 48px; object-fit: contain;">
             @elseif(file_exists(public_path('assets/img/logo.jpg')))
-              <img src="{{ asset('assets/img/logo.jpg') }}" alt="SecVote Logo" style="height: 42px; object-fit: contain;">
+              <img src="{{ asset('assets/img/logo.jpg') }}" alt="SecVote Logo" style="height: 48px; object-fit: contain;">
             @elseif(file_exists(public_path('assets/img/logo.jpeg')))
-              <img src="{{ asset('assets/img/logo.jpeg') }}" alt="SecVote Logo" style="height: 42px; object-fit: contain;">
+              <img src="{{ asset('assets/img/logo.jpeg') }}" alt="SecVote Logo" style="height: 48px; object-fit: contain;">
             @else
-              🗳️ Sec<span>Vote</span>
+              🗳️
             @endif
+            <span style="font-family: var(--font-title); font-weight: 800; font-size: 1.5rem; letter-spacing: -0.5px; background: var(--grad-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; color: #5D6CF0;">
+              PEMIRA
+            </span>
           </a>
           <!-- Close button on Mobile -->
           <button class="btn btn-link text-muted d-lg-none p-0" id="closeSidebarBtn" style="box-shadow: none;">
