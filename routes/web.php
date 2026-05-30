@@ -42,6 +42,7 @@ Route::middleware(['auth'])->group(function () {
 // 4. Admin Dedicated Paths (AdminMiddleware protected)
 Route::middleware(['auth', AdminMiddleware::class])->group(function () {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::get('/admin/export/pdf', [AdminController::class, 'exportPdf'])->name('admin.export.pdf');
     Route::post('/admin/candidates', [AdminController::class, 'createCandidate'])->name('admin.candidate.create');
     Route::post('/admin/candidates/{id}/update', [AdminController::class, 'updateCandidate'])->name('admin.candidate.update');
     Route::post('/admin/candidates/{id}/delete', [AdminController::class, 'deleteCandidate'])->name('admin.candidate.delete');

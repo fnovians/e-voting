@@ -309,4 +309,50 @@ class AdminController extends Controller
 
         return redirect()->back()->with('success', 'Kategori berhasil dihapus beserta kandidat di dalamnya.');
     }
+
+    /**
+     * Renders printable PDF-friendly report of voting results
+     */
+    public function exportPdf()
+    {
+        $totalVoters = User::where('role', 'voter')->count();
+        $votedCount = User::where('role', 'voter')->where('has_voted', true)->count();
+        $votingOpen = Cache::get('voting_open', true);
+        
+        $turnout = [
+            'total' => $totalVoters,
+            'voted' => $votedCount,
+            'percentage' => $totalVoters > 0 ? round(($votedCount / $totalVoters) * 100) : 0
+        ];
+
+        // Dynamic openssl decryption tally compiler
+        $candidates = Candidate::all();
+        $tallies = [];
+        foreach ($candidates as $c) {
+            $tallies[$c->id] = 0;
+        }
+
+        $votes = Vote::all();
+        foreach ($votes as $v) {
+            $decryptedId = CryptoService::decrypt($v->encrypted_candidate, $v->iv, $v->tag);
+            if (isset($tallies[$decryptedId])) {
+                $tallies[$decryptedId]++;
+            }
+        }
+
+        $reportData = $candidates->map(function ($c) use ($tallies, $votedCount) {
+            $votes = $tallies[$c->id] ?? 0;
+            return [
+                'name' => $c->name,
+                'category' => $c->votingCategory ? $c->votingCategory->name : 'N/A',
+                'votes' => $votes,
+                'percentage' => $votedCount > 0 ? round(($votes / $votedCount) * 100, 1) : 0
+            ];
+        })->sortByDesc('votes');
+
+        $categories = VotingCategory::with('candidates')->get();
+
+        return view('admin.pdf_report', compact('turnout', 'reportData', 'votingOpen', 'categories'));
+    }
 }
+
