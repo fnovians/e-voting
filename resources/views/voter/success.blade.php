@@ -6,10 +6,10 @@
 <!-- Voter Status Alert card -->
 <div class="voter-status-bar d-flex justify-content-between align-items-center mb-4 p-4 rounded-4 shadow-sm border-glass">
   <div>
-    <h5 class="text-dark fw-bold mb-1">Status Keikutsertaan Anda</h5>
-    <p class="text-muted mb-0 small">Sistem mengamankan pilihan Anda secara anonim menggunakan **One Person One Vote**.</p>
+    <h5 class="text-dark fw-bold mb-1">Status Voting Berhasil</h5>
+    <p class="text-muted mb-0 small">Anda telah menggunakan hak suara untuk kategori ini.</p>
   </div>
-  <span class="badge rounded-pill bg-success-subtle text-success fw-bold border border-success-subtle px-3 py-2" style="background-color: #ecfdf5; color: #059669; font-size: 0.78rem;">✓ Sudah Memilih</span>
+  <a href="{{ route('voter.dashboard') }}" class="btn btn-outline-primary btn-sm px-4 fw-bold rounded-pill">Lihat Kategori Lainnya</a>
 </div>
 
 <div class="row justify-content-center">
@@ -57,6 +57,11 @@
             💡 <strong>Analisis Ilmiah:</strong> Perhatikan bagaimana pilihan Anda disandikan menjadi teks acak tak terbaca. Karena kunci enkripsi disimpan di server dengan aman, administrator atau peretas yang membobol database tidak dapat mengetahui siapa memilih siapa, menjaga aspek <strong>Kerahasiaan Pemilu</strong>.
           </div>
         </div>
+        </div>
+      </div>
+      
+      <div class="mt-5">
+        <a href="{{ route('voter.dashboard') }}" class="btn btn-primary px-5 py-2 fw-bold shadow-sm rounded-pill">Pilih Kategori Lainnya</a>
       </div>
     </div>
     
