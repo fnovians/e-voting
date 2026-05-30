@@ -70,7 +70,6 @@
           </a>
         </nav>
 
-        <!-- Sidebar Profile & Logout Footer -->
         <div class="sidebar-footer">
           <div class="d-flex align-items-center mb-3">
             <div class="rounded-circle text-white d-flex justify-content-center align-items-center me-2 fw-bold shadow-sm" style="width: 38px; height: 38px; background: linear-gradient(135deg, #2563EB, #4F46E5); flex-shrink: 0;">
@@ -83,12 +82,9 @@
               </span>
             </div>
           </div>
-          <form action="{{ route('logout') }}" method="POST" class="m-0">
-            @csrf
-            <button type="submit" class="btn btn-outline-danger btn-sm w-100 py-2 fw-bold d-flex align-items-center justify-content-center gap-2" style="border-radius: 10px;">
-              <span>🚪</span> Keluar
-            </button>
-          </form>
+          <button type="button" class="btn btn-outline-danger btn-sm w-100 py-2 fw-bold d-flex align-items-center justify-content-center gap-2" style="border-radius: 10px;" data-bs-toggle="modal" data-bs-target="#logoutModal">
+            <span>🚪</span> Keluar
+          </button>
         </div>
       </aside>
 
@@ -216,11 +212,52 @@
     });
   </script>
 
+  <!-- Logout Confirmation Modal -->
+  <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true" style="backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); background: rgba(15, 23, 42, 0.3); z-index: 9999;">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 400px;">
+      <div class="modal-content" style="border-radius: 24px; border: 1px solid rgba(15, 23, 42, 0.08); box-shadow: 0 20px 50px rgba(15, 23, 42, 0.15); background: #FFFFFF; overflow: hidden; animation: modalEntrance 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;">
+        <div class="modal-body text-center p-4">
+          <div class="mx-auto mb-3 d-flex align-items-center justify-content-center animate-glow" style="background: rgba(239, 68, 68, 0.08); color: #EF4444; width: 64px; height: 64px; border-radius: 20px; font-size: 1.75rem;">
+            🚪
+          </div>
+          <h4 class="fw-bold text-dark mb-2">Konfirmasi Keluar</h4>
+          <p class="text-muted small mb-4" style="line-height: 1.45;">Apakah Anda yakin ingin keluar dari sistem E-Voting? Pilihan suara Anda yang belum selesai dikirimkan tidak akan tersimpan.</p>
+          
+          <div class="d-flex gap-3">
+            <button type="button" class="btn btn-light w-100 py-2.5 fw-semibold" data-bs-dismiss="modal" style="border-radius: 12px; border: 1px solid rgba(15, 23, 42, 0.08); font-size: 0.9rem; transition: all 0.2s ease;">Batal</button>
+            <form action="{{ route('logout') }}" method="POST" class="w-100 m-0">
+              @csrf
+              <button type="submit" class="btn btn-danger w-100 py-2.5 fw-semibold" style="border-radius: 12px; background: #EF4444; border: none; font-size: 0.9rem; transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);">Keluar</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <style>
     @keyframes pulseGlow {
       0% { transform: scale(1); opacity: 1; }
       50% { transform: scale(1.3); opacity: 0.5; box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.2); }
       100% { transform: scale(1); opacity: 1; }
+    }
+    @keyframes modalEntrance {
+      0% {
+        opacity: 0;
+        transform: scale(0.9) translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+    .animate-glow {
+      animation: pulseLogout 2s infinite;
+    }
+    @keyframes pulseLogout {
+      0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.2); }
+      70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
     }
   </style>
 </body>
