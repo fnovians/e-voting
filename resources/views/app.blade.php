@@ -21,13 +21,13 @@
     <div class="container">
       <a class="navbar-brand logo d-inline-flex align-items-center" href="#" onclick="switchView('dashboard')">
         @if(file_exists(public_path('assets/img/logo.svg')))
-          <img src="{{ asset('assets/img/logo.svg') }}" alt="SecVote Logo" style="height: 32px; object-fit: contain;">
+          <img src="{{ asset('assets/img/logo.svg') }}" alt="SecVote Logo" style="height: 42px; object-fit: contain;">
         @elseif(file_exists(public_path('assets/img/logo.png')))
-          <img src="{{ asset('assets/img/logo.png') }}" alt="SecVote Logo" style="height: 32px; object-fit: contain;">
+          <img src="{{ asset('assets/img/logo.png') }}" alt="SecVote Logo" style="height: 42px; object-fit: contain;">
         @elseif(file_exists(public_path('assets/img/logo.jpg')))
-          <img src="{{ asset('assets/img/logo.jpg') }}" alt="SecVote Logo" style="height: 32px; object-fit: contain;">
+          <img src="{{ asset('assets/img/logo.jpg') }}" alt="SecVote Logo" style="height: 42px; object-fit: contain;">
         @elseif(file_exists(public_path('assets/img/logo.jpeg')))
-          <img src="{{ asset('assets/img/logo.jpeg') }}" alt="SecVote Logo" style="height: 32px; object-fit: contain;">
+          <img src="{{ asset('assets/img/logo.jpeg') }}" alt="SecVote Logo" style="height: 42px; object-fit: contain;">
         @else
           🗳️ Sec<span>Vote</span>
         @endif
