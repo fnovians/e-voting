@@ -217,8 +217,10 @@
     <div class="modal-dialog modal-dialog-centered" style="max-width: 400px;">
       <div class="modal-content" style="border-radius: 24px; border: 1px solid rgba(15, 23, 42, 0.08); box-shadow: 0 20px 50px rgba(15, 23, 42, 0.15); background: #FFFFFF; overflow: hidden; animation: modalEntrance 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;">
         <div class="modal-body text-center p-4">
-          <div class="mx-auto mb-3 d-flex align-items-center justify-content-center animate-glow" style="background: rgba(239, 68, 68, 0.08); color: #EF4444; width: 64px; height: 64px; border-radius: 20px; font-size: 1.75rem;">
-            🚪
+          <div class="mx-auto mb-3 d-flex align-items-center justify-content-center animate-glow" style="background: rgba(239, 68, 68, 0.08); color: #EF4444; width: 64px; height: 64px; border-radius: 20px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
+              <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+            </svg>
           </div>
           <h4 class="fw-bold text-dark mb-2">Konfirmasi Keluar</h4>
           <p class="text-muted small mb-4" style="line-height: 1.45;">Apakah Anda yakin ingin keluar dari sistem E-Voting? Pilihan suara Anda yang belum selesai dikirimkan tidak akan tersimpan.</p>
