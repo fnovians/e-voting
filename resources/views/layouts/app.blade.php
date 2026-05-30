@@ -45,15 +45,10 @@
               </li>
             @endif
           @endauth
-          <li class="nav-item">
-            <a class="nav-link {{ Route::is('research.lab') ? 'active' : '' }}" href="{{ route('research.lab') }}">Lab Kriptografi</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link {{ Route::is('security.lab') ? 'active' : '' }}" href="{{ route('security.lab') }}">Lab Injeksi SQL</a>
-          </li>
         </ul>
         
         <div class="d-flex align-items-center gap-3">
+          @auth
           <!-- Notification Bell Trigger -->
           <button class="btn btn-link text-muted p-1 position-relative" style="box-shadow: none;" title="Notifikasi">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-bell" viewBox="0 0 16 16">
@@ -64,19 +59,32 @@
             </span>
           </button>
 
-          @auth
-            <!-- User profile widget -->
-            <div id="user-badge" class="user-info-text text-end d-none d-md-block">
-              <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-1 rounded-pill" style="font-size:0.65rem; background-color: rgba(37, 99, 235, 0.08); color: #2563EB;">
-                {{ Auth::user()->role === 'admin' ? 'Admin HIMA' : 'Pemilih' }}
-              </span>
-              <strong class="d-block text-dark mt-0.5" style="font-size: 0.88rem;">{{ Auth::user()->name }}</strong>
+            <!-- User Profile Dropdown -->
+            <div class="dropdown ms-2">
+              <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle text-dark" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <div class="rounded-circle text-white d-flex justify-content-center align-items-center me-2 fw-bold shadow-sm" style="width: 38px; height: 38px; background: linear-gradient(135deg, #2563EB, #4F46E5);">
+                  {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                </div>
+                <div class="d-none d-md-block text-start me-1">
+                  <strong class="d-block text-dark lh-1 mb-1" style="font-size: 0.88rem;">{{ Auth::user()->name }}</strong>
+                  <span class="badge px-2 py-0 rounded-pill" style="font-size:0.65rem; background-color: rgba(37, 99, 235, 0.08); color: #2563EB; border: 1px solid rgba(37, 99, 235, 0.2);">
+                    {{ Auth::user()->role === 'admin' ? 'Admin HIMA' : 'Pemilih' }}
+                  </span>
+                </div>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2 rounded-3" aria-labelledby="userDropdown" style="min-width: 200px;">
+                <li><h6 class="dropdown-header text-muted fw-bold">Menu Pengguna</h6></li>
+                <li><a class="dropdown-item py-2 d-flex align-items-center gap-2" href="#"><span style="font-size: 1.1rem;">👤</span> Profil Saya</a></li>
+                <li><a class="dropdown-item py-2 d-flex align-items-center gap-2" href="#"><span style="font-size: 1.1rem;">⚙️</span> Pengaturan</a></li>
+                <li><hr class="dropdown-divider border-light"></li>
+                <li>
+                  <form action="{{ route('logout') }}" method="POST" class="m-0">
+                    @csrf
+                    <button type="submit" class="dropdown-item py-2 text-danger fw-bold d-flex align-items-center gap-2"><span style="font-size: 1.1rem;">🚪</span> Keluar</button>
+                  </form>
+                </li>
+              </ul>
             </div>
-            
-            <form action="{{ route('logout') }}" method="POST" class="m-0">
-              @csrf
-              <button type="submit" class="btn btn-danger btn-sm px-3 d-flex align-items-center gap-1.5">Keluar</button>
-            </form>
           @else
             <a href="{{ route('login') }}" class="btn btn-cyan btn-sm px-4">Masuk</a>
           @endauth
@@ -122,34 +130,7 @@
     </div>
   </footer>
 
-  <!-- Smartphone Simulated Email Inbox Notification Widget for OTP Code Demo -->
-  @if (session('otp'))
-    <div id="otp-email-widget" class="shadow-box" style="display: block;">
-      <div class="email-widget-header px-3 py-2 fw-bold text-dark d-flex justify-content-between align-items-center">
-        <span>✉️ Simulated Email Inbox Widget</span>
-        <button type="button" class="btn-close text-dark" onclick="document.getElementById('otp-email-widget').style.display='none';" aria-label="Close" style="font-size: 0.8rem;"></button>
-      </div>
-      <div class="email-widget-body p-3 text-dark small">
-        <div class="email-widget-sender border-bottom border-glass pb-2 mb-2 text-muted small-text">
-          <strong>Pengirim:</strong> verifikasi@hima.univ.ac.id<br>
-          <strong>Kepada:</strong> <span>{{ session('temp_email') }}</span>
-        </div>
-        <div class="email-widget-subject fw-bold text-dark mb-2">
-          OTP Verifikasi Sistem E-Voting HIMA/BEM
-        </div>
-        <div class="mb-2 text-muted" style="font-size: 0.82rem; line-height: 1.4;">
-          Halo Mahasiswa,<br>
-          Berikut adalah Kode OTP keamanan rahasia Anda untuk melakukan login sistem e-voting. Jangan membagikan kode ini kepada siapapun:
-        </div>
-        <div class="email-widget-code-box text-center py-2 fs-4 fw-extrabold text-cyan rounded border border-dashed border-cyan my-3" style="text-shadow: var(--shadow-neon); background: rgba(37, 99, 235, 0.04); color: #2563EB; border-color: #2563EB;">
-          {{ session('otp') }}
-        </div>
-        <div class="text-center text-danger small fw-bold">
-          ⏳ Kode OTP ini berlaku selama 5 menit.
-        </div>
-      </div>
-    </div>
-  @endif
+
 
   <!-- Bootstrap 5 Bundle JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

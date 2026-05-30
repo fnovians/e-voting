@@ -33,12 +33,6 @@
             <a class="nav-link" id="nav-dashboard" onclick="switchView('dashboard')">Dashboard Pemilu</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" id="nav-research" onclick="switchView('research')">Lab Kriptografi</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" id="nav-security" onclick="switchView('security')">Lab Injeksi SQL</a>
-          </li>
-          <li class="nav-item">
             <a class="nav-link" id="nav-admin" onclick="switchView('admin')" style="display: none;">Admin Panel</a>
           </li>
         </ul>
@@ -91,18 +85,7 @@
                 <input type="password" id="login-password" class="form-control" placeholder="••••••••" required>
               </div>
 
-              <!-- SQL Injection Mitigation toggle (Scientific core) -->
-              <div class="p-3 mb-4 rounded-3 border-glass bg-glass-light">
-                <div class="form-check form-switch">
-                  <input class="form-check-input" type="checkbox" id="login-mitigation" checked style="cursor:pointer;">
-                  <label class="form-check-label fw-bold text-white small" style="cursor:pointer;">
-                    Aktifkan Mitigasi SQL Injection (Prepared Statements)
-                  </label>
-                </div>
-                <p class="text-muted mb-0 small-text mt-2">
-                  Jika <strong>aktif</strong>, sistem menggunakan Eloquent (aman). Jika <strong>nonaktif</strong>, input digabungkan langsung ke kueri MySQL mentah yang rentan serangan bypass login!
-                </p>
-              </div>
+
 
               <button type="submit" class="btn btn-cyan w-100 py-2">Masuk Sistem</button>
             </form>
@@ -484,32 +467,7 @@
     </section>
   </main>
 
-  <!-- Smartphone Simulated Email Inbox Notification Widget for OTP -->
-  <div id="otp-email-widget" class="shadow-box">
-    <div class="email-widget-header px-3 py-2 fw-bold text-dark d-flex justify-content-between align-items-center">
-      <span>✉️ Simulated Email Inbox Widget</span>
-      <span class="email-widget-close" onclick="closeEmailWidget()" style="cursor:pointer; font-size:1.2rem;">×</span>
-    </div>
-    <div class="email-widget-body p-3 text-white small">
-      <div class="email-widget-sender border-bottom border-glass pb-2 mb-2 text-muted small-text">
-        <strong>Pengirim:</strong> verifikasi@hima.univ.ac.id<br>
-        <strong>Kepada:</strong> <span id="email-widget-recipient">mahasiswa@univ.ac.id</span>
-      </div>
-      <div class="email-widget-subject fw-bold text-white mb-2">
-        OTP Verifikasi Sistem E-Voting HIMA/BEM
-      </div>
-      <div class="mb-2">
-        Halo Mahasiswa,<br>
-        Berikut adalah Kode OTP keamanan rahasia Anda untuk melakukan login sistem e-voting. Jangan membagikan kode ini kepada siapapun:
-      </div>
-      <div class="email-widget-code-box text-center py-2 fs-4 fw-extrabold text-cyan rounded border border-dashed border-cyan my-3" id="email-widget-otp-code">
-        ######
-      </div>
-      <div class="text-center text-danger smallfw-bold">
-        ⏳ Kode OTP ini berlaku selama 5 menit.
-      </div>
-    </div>
-  </div>
+
 
   <!-- Custom logic JS -->
   <script src="/js/app.js"></script>
